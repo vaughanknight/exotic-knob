@@ -1,12 +1,34 @@
 # Exotic Knob
 
-**Tiny knob. Big stereo energy. Zero surprise speaker blasts.**
+```text
+ _____  __  __  _____  _____  _______  _____  _____       _  __ _   _  ____  ____   _____
+| ____| \ \/ / |  _  ||_   _||__   __||_   _|/ ____|     | |/ /| \ | ||  _ \|  _ \ / ____|
+| |__    \  /  | | | |  | |     | |     | | | |          | ' / |  \| || |_) | |_) | (___
+|  __|   /  \  | | | |  | |     | |     | | | |          |  <  | . ` ||  _ <|  _ < \___ \
+| |___  / /\ \ | |_| | _| |_    | |    _| |_| |____      | . \ | |\  || |_) | |_) |____) |
+|_____|/_/  \_\|_____||_____|   |_|   |_____|\_____|     |_|\_\|_| \_||____/|____/|_____/
 
-Exotic Knob turns a small Anticater VK-01 Bluetooth volume knob into a local
-control surface for a NAD M33 / BluOS amplifier. The project starts with a
-hardware-learning CLI and a safety-first harness: capture what the knob really
-emits, replay it deterministically, probe BluOS read-only, then only mutate the
-amplifier through guarded commands.
+          .----------------.
+         /   ANTICATER     \
+        |      VK-01        |
+        |   ( turn me )     |
+         \_____.----.______/
+               |____|
+```
+
+**Tiny knob. Big stereo energy. Zero blown speakers.**
+
+Exotic Knob is your local, safety-first volume knob for the **NAD M33** and
+other **BluOS** players. It takes a tiny Anticater VK-01 Bluetooth knob and
+turns it into a proper hi-fi control surface: volume nudges, mute, source
+shortcuts, replayable hardware captures, and guardrails that keep the party from
+turning into an accidental speaker stress test.
+
+This is not "some script that sends volume commands and hopes for the best."
+It is a startup-grade little stereo robot: it learns the real HID reports from
+the knob, replays them deterministically, talks to BluOS over its local API, and
+only changes the amplifier through harnessed commands with explicit safety
+limits.
 
 ## What works today
 
@@ -127,4 +149,3 @@ If `just` is unavailable, run the commands from `justfile` directly.
 - Add policy-backed knob-to-BluOS control with config for step dB, max dB,
   source shortcuts, and group behavior.
 - Package the daemon for local startup once the behavior is boringly safe.
-
