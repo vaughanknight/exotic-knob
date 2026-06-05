@@ -8,8 +8,8 @@ Outstanding TODOs: TODO(TOOLING), TODO(CI), TODO(MOCK_POLICY)
 
 # Project Rules
 
-**Version**: 1.0.0  
-**Ratified**: 2026-06-05  
+**Version**: 1.1.0
+**Ratified**: 2026-06-05
 **Last amended**: 2026-06-05
 
 These rules implement the project constitution. "MUST" is mandatory, "SHOULD"
@@ -99,10 +99,13 @@ hardware unless explicitly marked as hardware smoke checks.
    event simulation.
 3. Tests MUST be deterministic; flaky behavior is a defect.
 4. Tests SHOULD use realistic fixtures for Bluetooth events and BluOS responses.
-5. Mocks MUST document why the real dependency is not used.
-
-TODO(MOCK_POLICY): Choose project mock policy: Avoid, Targeted, or Liberal.
-Until then, use targeted mocks only at external hardware/network boundaries.
+5. Tests MUST use fakes instead of mocks for external boundaries.
+6. Fakes MUST be behavior-oriented and contract-preserving; they MUST NOT encode
+   internal call-order expectations as the primary assertion.
+7. Fake HID readers SHOULD replay captured JSONL fixtures from real Anticater
+   reports whenever practical.
+8. Fake BluOS adapters SHOULD model documented dB volume semantics and error
+   behavior once amplifier control exists.
 
 ## Test Organization
 

@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "exotic-knob"
+version = "0.1.0"
+description = "CLI baseline for capturing Anticater VK-01 HID input."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Vaughan Knight" }]
+dependencies = []
+
+[project.optional-dependencies]
+hid = ["hidapi>=0.14.0"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+exotic-knob = "exotic_knob.cli.main:entrypoint"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/exotic_knob"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+

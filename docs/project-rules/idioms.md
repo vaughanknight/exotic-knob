@@ -7,8 +7,8 @@ Constitution: docs/project-rules/constitution.md
 
 # Project Idioms
 
-**Version**: 1.0.0  
-**Ratified**: 2026-06-05  
+**Version**: 1.1.0
+**Ratified**: 2026-06-05
 **Last amended**: 2026-06-05
 
 Idioms are preferred patterns that make the rules concrete. They are examples,
@@ -85,6 +85,21 @@ Test Doc:
 Good daemon tests favor simulated events and fake adapters over physical
 hardware. Hardware smoke checks should be explicit and separate from deterministic
 tests.
+
+## Fakes, Not Mocks Idiom
+
+Prefer fakes that behave like the boundary over mocks that assert how the code
+talked to the boundary.
+
+| Boundary | Preferred fake |
+|---|---|
+| Anticater HID input | Fixture-backed fake HID reader that replays JSONL reports |
+| BluOS amplifier | Fake BluOS adapter with documented dB volume behavior |
+| Daemon lifecycle | Fake clock/process boundary with explicit state transitions |
+
+Good fakes are reusable, deterministic, and contract-shaped. They should make a
+test read like "given these observed reports, the CLI emits these normalized
+events", not "expect method X to be called before method Y".
 
 ## Scratch Promotion Idiom
 

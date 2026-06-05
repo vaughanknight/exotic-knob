@@ -1,9 +1,9 @@
 <!--
 Sync Impact Report
 Mode: CREATE
-Version bump: none -> 1.0.0
-Rationale: Establish initial doctrine for a local daemon that maps a Bluetooth
-volume knob to safe NAD M33 BluOS amplifier volume control.
+Version bump: 1.0.0 -> 1.1.0
+Rationale: Establish fakes-only testing doubles policy for external hardware
+and service boundaries.
 Sections preserved: 0
 Sections updated: 0
 Custom content retained: 0
@@ -17,8 +17,8 @@ Supporting docs/templates update status: No templates or command references foun
 
 # Exotic Knob Project Constitution
 
-**Version**: 1.0.0  
-**Ratified**: 2026-06-05  
+**Version**: 1.1.0
+**Ratified**: 2026-06-05
 **Last amended**: 2026-06-05
 
 ## Guiding Principles
@@ -88,6 +88,23 @@ The project MUST maintain tests for:
 External Bluetooth and BluOS behavior SHOULD be tested through adapter-level
 fakes or fixtures first. Hardware validation MAY be documented as a manual smoke
 check when physical devices are required.
+
+## Testing Doubles Policy
+
+The project MUST use **fakes**, not mocks. A fake is a small, behavior-oriented
+implementation of an external boundary that preserves the contract enough for
+deterministic tests. Tests MUST NOT rely on expectation-scripted mocks that
+assert internal call choreography instead of user-visible behavior.
+
+Acceptable test doubles:
+
+1. Fake HID readers that replay captured Anticater report fixtures.
+2. Fake BluOS adapters that behave like the documented local HTTP/XML API.
+3. Fake clocks, queues, and process boundaries where needed for deterministic
+   daemon lifecycle tests.
+
+Fakes MUST live at adapter boundaries and SHOULD be backed by real captured
+fixtures whenever practical.
 
 TODO(TOOLING): Select the implementation language and canonical local commands
 for format, lint, test, build, and daemon smoke checks.

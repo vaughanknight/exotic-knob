@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "slug": "bluetooth-input-baseline",
+  "plan_dir": "docs/plans/001-bluetooth-input-baseline",
+  "mode": "Simple",
+  "current_stage": "complete",
+  "pending_command": "",
+  "intent": "let's create a baseline to get the input from the bluetooth device. we will want to run this on esp32 possibly in future, for now it's on my mac (or a pc) via CLI, we'll need to do some technology choices and simple is best, this is unlikely to be a complex app, but i do want to be mindful of battery consumption etc for when we go to esp32, it won't be running often (when volume is changed) but it will be running all the time. First cut can just be a basic CLI that outputs when it gets the messages from the device, selects the device etc",
+  "milestones_total": 5,
+  "milestones_done": 5,
+  "last_checkpoint_at": "2026-06-05T03:45:13Z",
+  "compacted_seams": [],
+  "status": "complete"
+}

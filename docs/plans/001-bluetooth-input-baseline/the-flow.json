@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "kind": "flight-plan",
+  "slug": "bluetooth-input-baseline",
+  "plan_dir": "docs/plans/001-bluetooth-input-baseline",
+  "mode": "Simple",
+  "cursor": "complete",
+  "recommended_next": "complete",
+  "now": "Flow complete",
+  "next": "Commit/push when explicitly requested; real hardware smoke remains follow-up",
+  "agents": [],
+  "nodes": [
+    {
+      "id": "research",
+      "type": "research",
+      "label": "Research",
+      "status": "done",
+      "command": "/plan-1a-v2-explore",
+      "ran_at": "2026-06-04T23:52:30Z",
+      "user_input": "let's create a baseline to get the input from the bluetooth device. we will want to run this on esp32 possibly in future, for now it's on my mac (or a pc) via CLI, we'll need to do some technology choices and simple is best, this is unlikely to be a complex app, but i do want to be mindful of battery consumption etc for when we go to esp32, it won't be running often (when volume is changed) but it will be running all the time. First cut can just be a basic CLI that outputs when it gets the messages from the device, selects the device etc",
+      "note": "No implementation exists yet; research surfaced Bluetooth/runtime choices, test-harness gaps, and adapter-boundary constraints.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/original-ask.md",
+        "docs/plans/001-bluetooth-input-baseline/research-dossier.md"
+      ],
+      "next": ["deep-research", "spec"]
+    },
+    {
+      "id": "deep-research",
+      "type": "deep-research",
+      "label": "Deep research x4",
+      "status": "done",
+      "branch_of": "research",
+      "tool": "perplexity",
+      "ran_at": "2026-06-05T00:17:22Z",
+      "user_input": "run the deep research prompts, let's get this right from the start; can we do deep research on the anticater knob also, as that is the volume knob we are using and it has LED features and click volume knob also... would be good to know what we can do with it and what we expect from it",
+      "note": "Ran desktop Bluetooth, ESP32 battery, NAD M33 BluOS API, and Anticater VK-01 research. Key result: HID-first Python/HIDAPI baseline; Anticater likely emits programmable HID consumer/keyboard events, with RGB controlled by vendor software unless a vendor feature-report channel is discovered.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/external-research/desktop-bluetooth-input-stack.md",
+        "docs/plans/001-bluetooth-input-baseline/external-research/esp32-battery-bluetooth-path.md",
+        "docs/plans/001-bluetooth-input-baseline/external-research/nad-m33-bluos-volume-api.md",
+        "docs/plans/001-bluetooth-input-baseline/external-research/anticater-vk01-knob.md"
+      ],
+      "next": ["spec"]
+    },
+    {
+      "id": "spec",
+      "type": "spec",
+      "label": "Spec",
+      "status": "done",
+      "command": "/plan-1b-v3-specify-and-clarify",
+      "ran_at": "2026-06-05T00:46:09Z",
+      "user_input": "create a baseline CLI for the Anticater VK-01 Bluetooth volume knob: pair/select the device on macOS first and PC later, enumerate HID interfaces, capture descriptors and raw reports for rotate left/right, click/mute, and long-press+rotate actions, print raw and best-effort normalized events, save JSONL fixtures for replay, use a HID-first Python/HIDAPI approach, defer LED/RGB control unless a vendor-defined feature/output report is discovered, and keep the event model transport-neutral for future ESP32 and BluOS dB volume policy work",
+      "note": "Spec landed in Simple mode. It locks HID-first Python/HIDAPI, fakes-only testing, Anticater capture criteria, and Phase 0 engineering harness expectation.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/bluetooth-input-baseline-spec.md",
+        "docs/plans/001-bluetooth-input-baseline/bluetooth-input-baseline.fltplan.md"
+      ],
+      "next": ["backpressure", "plan"]
+    },
+    {
+      "id": "backpressure",
+      "type": "backpressure",
+      "label": "Backpressure survey?",
+      "status": "done",
+      "branch_of": "spec",
+      "command": "/plan-2d-backpressure-survey",
+      "ran_at": "2026-06-05T00:50:00Z",
+      "user_input": "yes — run backpressure survey",
+      "note": "Certainty Weak: no deterministic sensors exist yet; recommended Phase 0 establishes Python harness, smoke, tests, fixture schema, fake HID reader, hardware smoke, dependency boundaries, and docs checks.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/backpressure-coverage.md"
+      ],
+      "next": ["plan"]
+    },
+    {
+      "id": "plan",
+      "type": "plan",
+      "label": "Plan",
+      "status": "done",
+      "command": "/plan-3-v3-architect",
+      "ran_at": "2026-06-05T03:15:25Z",
+      "user_input": "yes",
+      "note": "Plan emitted READY in Simple mode and validate-v2 returned VALIDATED WITH FIXES after adding fixture redaction/privacy coverage.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/bluetooth-input-baseline-plan.md",
+        "docs/plans/001-bluetooth-input-baseline/bluetooth-input-baseline.fltplan.md"
+      ],
+      "next": ["phase-1"]
+    },
+    {
+      "id": "phase-1",
+      "type": "phase",
+      "phase": 1,
+      "label": "Simple Implementation",
+      "status": "done",
+      "command": "/plan-6-v2-implement-phase --phase \"Simple Implementation\" --plan \"docs/plans/001-bluetooth-input-baseline/bluetooth-input-baseline-plan.md\"",
+      "ran_at": "2026-06-05T03:33:51Z",
+      "note": "Implemented the READY Simple plan: domain docs, Python harness, fake HID tests, HIDAPI reader, CLI list/capture/replay, docs, and hardware-smoke evidence template. Real Anticater capture evidence remains pending physical device exercise.",
+      "artifacts": [
+        "pyproject.toml",
+        "justfile",
+        "src/exotic_knob/",
+        "tests/",
+        "docs/domains/",
+        "docs/how/",
+        "docs/plans/001-bluetooth-input-baseline/execution.log.md"
+      ],
+      "next": ["review"]
+    },
+    {
+      "id": "review",
+      "type": "review",
+      "label": "Review",
+      "status": "done",
+      "command": "/plan-7-v2-code-review",
+      "ran_at": "2026-06-05T03:43:48Z",
+      "note": "Review approved with notes after fixing HID raw-byte preservation, python3 harness commands, and fixture schema hardening. Real Anticater hardware smoke remains pending.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/reviews/review.md",
+        "docs/plans/001-bluetooth-input-baseline/reviews/fix-tasks.md"
+      ],
+      "next": ["merge"]
+    },
+    {
+      "id": "merge",
+      "type": "merge",
+      "label": "Merge",
+      "status": "done",
+      "command": "/plan-8-v2-merge",
+      "ran_at": "2026-06-05T03:45:13Z",
+      "note": "Merge analysis found no upstream divergence: main and origin/main point to the same commit. No merge execution required.",
+      "artifacts": [
+        "docs/plans/001-bluetooth-input-baseline/merge/2026-06-05/merge-plan.md"
+      ],
+      "next": []
+    }
+  ]
+}
