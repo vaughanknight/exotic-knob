@@ -129,16 +129,6 @@ just doctor-hid
 
 If `just` is unavailable, run the commands from `justfile` directly.
 
-## Design principles
-
-1. **Capture before control**: learn real device reports before mapping actions.
-2. **Fakes, not mocks**: tests use behavior-oriented fakes and fixtures.
-3. **Safety before spectacle**: every amplifier mutation is bounded and explicit.
-4. **Transport-neutral events**: knob events stay useful for future desktop,
-   daemon, and ESP32 paths.
-5. **Harness is product**: every setup, probe, and smoke check gets a named
-   command so future agents and humans can repeat it.
-
 ## Roadmap
 
 - Promote redacted real Anticater gesture fixtures.
