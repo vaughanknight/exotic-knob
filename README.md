@@ -15,11 +15,11 @@
 
 **Tiny knob. Big stereo energy. Zero blown speakers.**
 
-Exotic Knob is your local, safety-first volume knob for the **NAD M33** and
-other **BluOS** players. It takes a tiny Anticater VK-01 Bluetooth knob and
-turns it into a proper hi-fi control surface: volume nudges, mute, source
-shortcuts, replayable hardware captures, and guardrails that keep the party from
-turning into an accidental speaker stress test.
+Exotic Knob is a local, safety-first volume knob for the **NAD M33** and other
+**BluOS** players. It takes a tiny Anticater VK-01 Bluetooth knob and teaches it
+some hi-fi manners: volume nudges, mute, source shortcuts, replayable hardware
+captures, and guardrails that keep the party from turning into an accidental
+speaker stress test.
 
 Okay, technically it is "some script that sends volume commands" — but it is
 some script that has had some thought put into it. It learns the real HID
@@ -38,6 +38,7 @@ explicit safety limits.
 | BluOS/NAD probing | Reads `/Status`, `/SyncStatus`, and `/Volume` from a NAD M33. |
 | Guarded live commands | Supports bounded dB steps, explicit mute on/off, and guarded source switching. |
 | Safety harness | Named `just` commands, tests, lint, boundary checks, smoke checks, and live readbacks. |
+| Daemon loop | Runs the knob-to-BluOS loop so the VK-01 controls the NAD directly. |
 
 ## Current gesture plan
 
@@ -78,10 +79,13 @@ Direct capture is also available:
 
 ```bash
 python3 -m exotic_knob.cli.main capture \
-  --path "DevSrvsID:4295852156" \
+  --path "<path from just list-devices>" \
   --output capture.local.jsonl \
   --operation-label live-probe
 ```
+
+The `DevSrvsID` path can change after sleep or reconnect. Re-run
+`just list-devices` when in doubt.
 
 `*.local.jsonl` captures can contain local HID paths or serials. Review and
 redact local identity fields before sharing or committing fixtures.
@@ -118,6 +122,32 @@ Important safety notes:
 - Spotify is a service/play context, not a passive `inputTypeIndex` source.
 - Optical 1 is, delightfully, `inputTypeIndex=optical-2`.
 
+## Daemon
+
+Run the live knob-to-BluOS loop:
+
+```bash
+just daemon-dry-run
+just daemon
+```
+
+The daemon maps knob events to the same guarded BluOS commands:
+
+| Knob event | Daemon action |
+|---|---|
+| `volume_up` | `+1 dB`, refused above the configured max dB. |
+| `volume_down` | `-1 dB`. |
+| `mute_toggle` | Query current mute, then send explicit mute on/off. |
+| `brightness_down` | Switch Optical 1 and set `abs_db=-40`. |
+| `brightness_up` | Resume Spotify and set `abs_db=-40`. |
+
+The daemon auto-discovers the current Anticater HID path, which can change after
+sleep/reconnect, and logs what it does:
+
+```bash
+tail -f /tmp/exotic-knob-daemon.log
+```
+
 ## Checks
 
 ```bash
@@ -132,7 +162,5 @@ If `just` is unavailable, run the commands from `justfile` directly.
 ## Roadmap
 
 - Promote redacted real Anticater gesture fixtures.
-- Turn the harness learnings into a daemon loop.
-- Add policy-backed knob-to-BluOS control with config for step dB, max dB,
-  source shortcuts, and group behavior.
-- Package the daemon for local startup once the behavior is boringly safe.
+- Add richer config for step dB, max dB, source shortcuts, and group behavior.
+- Package the daemon for local startup.

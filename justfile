@@ -65,6 +65,15 @@ bluos-source-spotify host=bluos_host port=bluos_port:
     test -n "{{host}}" || (echo "Set BLUOS_HOST or run: just bluos-source-spotify <host>" >&2; exit 2)
     python3 scripts/bluos_source.py --host "{{host}}" --port "{{port}}" switch --source "Spotify" --safe-db "-40" --i-understand-this-changes-source
 
+daemon host="192.168.1.67" path="auto" max_db="-24":
+    python3 scripts/exotic_daemon.py --anticater-path "{{path}}" --bluos-host "{{host}}" --max-db "{{max_db}}" --i-understand-this-controls-the-amplifier
+
+daemon-dry-run host="192.168.1.67" path="auto":
+    python3 scripts/exotic_daemon.py --anticater-path "{{path}}" --bluos-host "{{host}}" --dry-run
+
+daemon-once host="192.168.1.67" path="auto" max_db="-24":
+    python3 scripts/exotic_daemon.py --anticater-path "{{path}}" --bluos-host "{{host}}" --max-db "{{max_db}}" --limit 1 --i-understand-this-controls-the-amplifier
+
 test:
     python3 -m pytest
 
