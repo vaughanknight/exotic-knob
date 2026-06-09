@@ -36,20 +36,15 @@ For the "I have the knob, I have a BluOS player, let me try it" path:
 git clone https://github.com/vaughanknight/bluos-knob.git
 cd bluos-knob
 
-python3 -m pip install -e ".[dev]"
-just setup-hid
-
-export BLUOS_HOST=<your-bluos-ip-address>
-just bluos-doctor
-just list-devices
-
-just daemon-start
+./run.sh <your-bluos-ip-address>
 ```
 
 Then turn the knob.
 
-The daemon auto-discovers the current Anticater HID path, so you normally do not
-need to copy a `DevSrvsID` manually. It writes activity to:
+The script installs prerequisites, verifies HID/BluOS connectivity, starts the
+daemon, and prints the log/stop commands. The daemon auto-discovers the current
+Anticater HID path, so you normally do not need to copy a `DevSrvsID` manually.
+It writes activity to:
 
 ```bash
 tail -f /tmp/bluos-knob-daemon.log
@@ -60,6 +55,8 @@ To stop it:
 ```bash
 just daemon-stop
 ```
+
+Prefer manual steps? The harness commands below are the long way around.
 
 ## What works today
 
