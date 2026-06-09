@@ -28,6 +28,22 @@ reports from the knob, replays them deterministically, talks to BluOS over its
 local API, and only changes the amplifier through harnessed commands with
 explicit safety limits.
 
+## Why this exists
+
+I built this for my NAD M33 because I wanted a wireless, rechargeable volume
+knob. The VK-01 was the perfect controller: rechargeable, wireless, a proper
+dial, tap, and hold controls.
+
+But it needed a bridge to talk to the NAD M33, so _this_ project brings it all
+together.
+
+I'll likely build an ESP32-deployable version next so I don't need my Mac
+running the daemon. The idea is that people could buy a cheap little device,
+power it from USB, and let it sit quietly near their amp doing the bridge work.
+
+Theoretically this should work with any BluOS device, but bear in mind I've only
+tested it with the NAD M33. Enjoy!
+
 ## Just run it
 
 For the "I have the knob, I have a BluOS player, let me try it" path:
