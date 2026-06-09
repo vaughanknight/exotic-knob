@@ -11,7 +11,6 @@
 ![Safety](https://img.shields.io/badge/safety-zero%20blown%20speakers-brightgreen)
 ![BluOS](https://img.shields.io/badge/BluOS-NAD%20M33-blue)
 ![Knob](https://img.shields.io/badge/knob-Anticater%20VK--01-purple)
-![Harness](https://img.shields.io/badge/harness-first-orange)
 
 **Tiny knob. Big stereo energy. Zero blown speakers.**
 
