@@ -96,7 +96,7 @@ redact local identity fields before sharing or committing fixtures.
 Set the NAD/BluOS host explicitly; local IPs are not hardcoded into the app.
 
 ```bash
-export BLUOS_HOST=192.168.1.67
+export BLUOS_HOST=<your-bluos-ip-address>
 just bluos-doctor
 just bluos-status
 just bluos-syncstatus
@@ -106,13 +106,13 @@ just bluos-volume
 Guarded mutation harness:
 
 ```bash
-just bluos-step-down 192.168.1.67 1 -24
-just bluos-step-up 192.168.1.67 1 -24
-just bluos-mute-off 192.168.1.67
-just bluos-mute-on 192.168.1.67
-just bluos-sources 192.168.1.67
-just bluos-source-optical 192.168.1.67
-just bluos-source-spotify 192.168.1.67
+just bluos-step-down <your-bluos-ip-address> 1 -24
+just bluos-step-up <your-bluos-ip-address> 1 -24
+just bluos-mute-off <your-bluos-ip-address>
+just bluos-mute-on <your-bluos-ip-address>
+just bluos-sources <your-bluos-ip-address>
+just bluos-source-optical <your-bluos-ip-address>
+just bluos-source-spotify <your-bluos-ip-address>
 ```
 
 Important safety notes:
